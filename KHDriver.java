@@ -3,7 +3,10 @@
 import java.util.Random;
 
 public class KHDriver {
-    // Global controls
+
+    // =========================
+    // GLOBAL CONTROLS
+    // =========================
     private static final int SIZE = 50000;          // main list size for access tests
     private static final int RANDOM_LOOKUPS = 100;  // random get() calls
     private static final int ADD_FIRST_COUNT = 100; // number of addFirst operations
@@ -188,3 +191,4 @@ public class KHDriver {
         System.out.println("Double LinkedList Sequential Access: " + linkedAccessTime + " ns");
     }
 }
+
