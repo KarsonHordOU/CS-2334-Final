@@ -42,8 +42,29 @@ public class KHLinkedList<T> {
 			head = newNode;
 		}
 		size++;
-		
 	}
+	
+	public T add(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+
+        T addData;
+
+        if (index == 0) { // Removing the head
+            addData = head.data;
+            head = head.next;
+        } else {
+            Node<T> current = head;
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+            addData = current.next.data;
+            current.next = current.next.next; // Bypass the node to be removed
+        }
+        size++;
+        return addData;
+    }
 	
 	public T remove() {
         if (head == null) {
@@ -53,6 +74,48 @@ public class KHLinkedList<T> {
         head = head.next;
         size--;
         return data;
+    }
+	
+	public T removeLast() {
+        if (head == null) {
+            return null; // Or throw NoSuchElementException
+        }
+        if (head.next == null) {
+            T data = head.data;
+            head = null;
+            return data;
+        }
+
+        Node<T> current = head;
+        while (current.next.next != null) {
+            current = current.next;
+        }
+
+        T data = current.next.data;
+        current.next = null;
+        return data;
+    }
+	
+	public T remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+
+        T removedData;
+
+        if (index == 0) { // Removing the head
+            removedData = head.data;
+            head = head.next;
+        } else {
+            Node<T> current = head;
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+            removedData = current.next.data;
+            current.next = current.next.next; // Bypass the node to be removed
+        }
+        size--;
+        return removedData;
     }
 	
 	public boolean contains(T element) {
