@@ -1,16 +1,17 @@
-//KH
+// KH
 
 import java.util.Random;
 
 public class KHDriver {
-
-    // =========================
-    // GLOBAL CONTROLS
-    // =========================
-    private static final int SIZE = 50000;          // main list size for access tests
-    private static final int RANDOM_LOOKUPS = 100;  // random get() calls
-    private static final int ADD_FIRST_COUNT = 100; // number of addFirst operations
-    private static final int ADD_LAST_COUNT  = 100; // number of extra add() operations
+    // Global controls
+    private static final int SIZE = 10000;          // main list size for access tests
+    private static final int RANDOM_LOOKUPS = 100;   // random get() calls
+    private static final int ADD_FIRST_COUNT = 100;  // number of addFirst operations
+    private static final int ADD_LAST_COUNT  = 100;  // number of extra add() operations
+    private static final int ADD_MIDDLE_COUNT = 100; // number of addMiddle operations
+    private static final int REMOVE_FIRST_COUNT = 100;  // number of removeFirst operations
+    private static final int REMOVE_LAST_COUNT = 100;   // number of removeLast operations
+    private static final int REMOVE_MIDDLE_COUNT = 100; // number of removeMiddle operations
 
     public static void main(String[] args) {
         runIntegerTests();
@@ -28,10 +29,10 @@ public class KHDriver {
 
         KHLinkedList<Integer> list = new KHLinkedList<>();
 
-        // --- Fill list to SIZE (setup, not timed) ---
+        // --- Fill list to SIZE ---
         for (int i = 0; i < SIZE; i++) {
             Integer number = generator.nextInt(101);
-            list.add(number);          // uses add(E), just like your original code
+            list.add(number);
         }
 
         // --- Test extra add-to-end operations ---
@@ -42,6 +43,15 @@ public class KHDriver {
         }
         long endAdd = System.nanoTime();
         long linkedAddTime = endAdd - startAdd;
+
+        // --- Add to middle on existing large list ---
+        long startAddMiddle = System.nanoTime();
+        for (int i = 0; i < ADD_MIDDLE_COUNT; i++) {
+            Integer number = generator.nextInt(101);
+            list.addMiddle(number);
+        }
+        long endAddMiddle = System.nanoTime();
+        long linkedAddMiddleTime = endAddMiddle - startAddMiddle;
 
         // --- Sequential access of all elements ---
         long startAccess = System.nanoTime();
@@ -70,11 +80,41 @@ public class KHDriver {
         long endAddFirst = System.nanoTime();
         long linkedAddFirstTime = endAddFirst - startAddFirst;
 
+        // --- Remove from beginning on main list ---
+        long startRemoveFirst = System.nanoTime();
+        for (int i = 0; i < REMOVE_FIRST_COUNT; i++) {
+            list.removeFirst();
+        }
+        long endRemoveFirst = System.nanoTime();
+        long linkedRemoveFirstTime = endRemoveFirst - startRemoveFirst;
+
+        // --- Remove from end on main list ---
+        long startRemoveLast = System.nanoTime();
+        for (int i = 0; i < REMOVE_LAST_COUNT; i++) {
+            list.removeLast();
+        }
+        long endRemoveLast = System.nanoTime();
+        long linkedRemoveLastTime = endRemoveLast - startRemoveLast;
+
+        // --- Remove from middle on main list ---
+        long startRemoveMiddle = System.nanoTime();
+        for (int i = 0; i < REMOVE_MIDDLE_COUNT; i++) {
+            list.removeMiddle();
+        }
+        long endRemoveMiddle = System.nanoTime();
+        long linkedRemoveMiddleTime = endRemoveMiddle - startRemoveMiddle;
+
         System.out.println("===== Integer KHLinkedList Results =====");
-        System.out.println("Integer LinkedList AddFirst Time:     " + linkedAddFirstTime + " ns");
-        System.out.println("Integer LinkedList AddLast Time:      " + linkedAddTime + " ns");
-        System.out.println("Integer LinkedList Random Access:     " + linkedRandomAccessTime + " ns");
-        System.out.println("Integer LinkedList Sequential Access: " + linkedAccessTime + " ns");
+        System.out.println("Integer LinkedList AddFirst Time:      " + linkedAddFirstTime);
+        System.out.println("Integer LinkedList AddMiddle Time:     " + linkedAddMiddleTime);
+        System.out.println("Integer LinkedList AddLast Time:       " + linkedAddTime + "\n");
+
+        System.out.println("Integer LinkedList RemoveFirst Time:   " + linkedRemoveFirstTime);
+        System.out.println("Integer LinkedList RemoveMiddle Time:  " + linkedRemoveMiddleTime);
+        System.out.println("Integer LinkedList RemoveLast Time:    " + linkedRemoveLastTime + "\n");
+        
+        System.out.println("Integer LinkedList Random Access:      " + linkedRandomAccessTime);
+        System.out.println("Integer LinkedList Sequential Access:  " + linkedAccessTime);
     }
 
     // =========================
@@ -99,6 +139,15 @@ public class KHDriver {
         }
         long endAdd = System.nanoTime();
         long linkedAddTime = endAdd - startAdd;
+
+        // AddMiddle test
+        long startAddMiddle = System.nanoTime();
+        for (int i = 0; i < ADD_MIDDLE_COUNT; i++) {
+            String value = "str" + generator.nextInt(101);
+            list.addMiddle(value);
+        }
+        long endAddMiddle = System.nanoTime();
+        long linkedAddMiddleTime = endAddMiddle - startAddMiddle;
 
         // Sequential access
         long startAccess = System.nanoTime();
@@ -127,11 +176,39 @@ public class KHDriver {
         long endAddFirst = System.nanoTime();
         long linkedAddFirstTime = endAddFirst - startAddFirst;
 
+        // Remove tests on main list
+        long startRemoveFirst = System.nanoTime();
+        for (int i = 0; i < REMOVE_FIRST_COUNT; i++) {
+            list.removeFirst();
+        }
+        long endRemoveFirst = System.nanoTime();
+        long linkedRemoveFirstTime = endRemoveFirst - startRemoveFirst;
+
+        long startRemoveLast = System.nanoTime();
+        for (int i = 0; i < REMOVE_LAST_COUNT; i++) {
+            list.removeLast();
+        }
+        long endRemoveLast = System.nanoTime();
+        long linkedRemoveLastTime = endRemoveLast - startRemoveLast;
+
+        long startRemoveMiddle = System.nanoTime();
+        for (int i = 0; i < REMOVE_MIDDLE_COUNT; i++) {
+            list.removeMiddle();
+        }
+        long endRemoveMiddle = System.nanoTime();
+        long linkedRemoveMiddleTime = endRemoveMiddle - startRemoveMiddle;
+
         System.out.println("===== String KHLinkedList Results =====");
-        System.out.println("String LinkedList AddFirst Time:     " + linkedAddFirstTime + " ns");
-        System.out.println("String LinkedList AddLast Time:      " + linkedAddTime + " ns");
-        System.out.println("String LinkedList Random Access:     " + linkedRandomAccessTime + " ns");
-        System.out.println("String LinkedList Sequential Access: " + linkedAccessTime + " ns");
+        System.out.println("String LinkedList AddFirst Time:      " + linkedAddFirstTime);
+        System.out.println("String LinkedList AddMiddle Time:     " + linkedAddMiddleTime);
+        System.out.println("String LinkedList AddLast Time:       " + linkedAddTime + "\n");
+        
+        System.out.println("String LinkedList RemoveFirst Time:   " + linkedRemoveFirstTime);
+        System.out.println("String LinkedList RemoveMiddle Time:  " + linkedRemoveMiddleTime);
+        System.out.println("String LinkedList RemoveLast Time:    " + linkedRemoveLastTime + "\n");
+        
+        System.out.println("String LinkedList Random Access:      " + linkedRandomAccessTime);
+        System.out.println("String LinkedList Sequential Access:  " + linkedAccessTime);
     }
 
     // =========================
@@ -156,6 +233,15 @@ public class KHDriver {
         }
         long endAdd = System.nanoTime();
         long linkedAddTime = endAdd - startAdd;
+
+        // AddMiddle test
+        long startAddMiddle = System.nanoTime();
+        for (int i = 0; i < ADD_MIDDLE_COUNT; i++) {
+            Double number = generator.nextDouble() * 100.0;
+            list.addMiddle(number);
+        }
+        long endAddMiddle = System.nanoTime();
+        long linkedAddMiddleTime = endAddMiddle - startAddMiddle;
 
         // Sequential access
         long startAccess = System.nanoTime();
@@ -184,12 +270,39 @@ public class KHDriver {
         long endAddFirst = System.nanoTime();
         long linkedAddFirstTime = endAddFirst - startAddFirst;
 
+        // Remove tests on main list
+        long startRemoveFirst = System.nanoTime();
+        for (int i = 0; i < REMOVE_FIRST_COUNT; i++) {
+            list.removeFirst();
+        }
+        long endRemoveFirst = System.nanoTime();
+        long linkedRemoveFirstTime = endRemoveFirst - startRemoveFirst;
+
+        long startRemoveLast = System.nanoTime();
+        for (int i = 0; i < REMOVE_LAST_COUNT; i++) {
+            list.removeLast();
+        }
+        long endRemoveLast = System.nanoTime();
+        long linkedRemoveLastTime = endRemoveLast - startRemoveLast;
+
+        long startRemoveMiddle = System.nanoTime();
+        for (int i = 0; i < REMOVE_MIDDLE_COUNT; i++) {
+            list.removeMiddle();
+        }
+        long endRemoveMiddle = System.nanoTime();
+        long linkedRemoveMiddleTime = endRemoveMiddle - startRemoveMiddle;
+
         System.out.println("===== Double KHLinkedList Results =====");
-        System.out.println("Double LinkedList AddFirst Time:     " + linkedAddFirstTime + " ns");
-        System.out.println("Double LinkedList AddLast Time:      " + linkedAddTime + " ns");
-        System.out.println("Double LinkedList Random Access:     " + linkedRandomAccessTime + " ns");
-        System.out.println("Double LinkedList Sequential Access: " + linkedAccessTime + " ns");
+        System.out.println("Double LinkedList AddFirst Time:      " + linkedAddFirstTime);
+        System.out.println("Double LinkedList AddMiddle Time:     " + linkedAddMiddleTime);
+        System.out.println("Double LinkedList AddLast Time:       " + linkedAddTime + "\n");
+        
+        System.out.println("Double LinkedList RemoveFirst Time:   " + linkedRemoveFirstTime);
+        System.out.println("Double LinkedList RemoveMiddle Time:  " + linkedRemoveMiddleTime);
+        System.out.println("Double LinkedList RemoveLast Time:    " + linkedRemoveLastTime + "\n");
+        
+        System.out.println("Double LinkedList Random Access:      " + linkedRandomAccessTime);
+        System.out.println("Double LinkedList Sequential Access:  " + linkedAccessTime);
     }
 }
-
 
