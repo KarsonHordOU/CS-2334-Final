@@ -52,17 +52,11 @@ public class KHLinkedList<T> {
         size++;
     }
 
-    /**
-     * Add in the "middle" of the list.
-     * We define middle index as size / 2 (integer division).
-     * Example: size=4 → index 2 (0,1,2,3), size=5 → index 2.
-     */
     public void addMiddle(T data) {
         if (data == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
 
-        // If list is empty or 1 element, just add at end (simplest reasonable behavior)
         if (size == 0) {
             add(data);         // becomes the only element
             return;
@@ -77,7 +71,6 @@ public class KHLinkedList<T> {
         int index = size / 2;  // index where we want to insert
         Node<T> newNode = new Node<>(data);
 
-        // Traverse to node BEFORE the index
         Node<T> current = head;
         for (int i = 0; i < index - 1; i++) {
             current = current.next;
@@ -88,10 +81,6 @@ public class KHLinkedList<T> {
         size++;
     }
 
-    /**
-     * Indexed add (optional utility) – insert at a specific index.
-     * 0 <= index <= size
-     */
     public void add(int index, T data) {
         if (data == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -130,7 +119,6 @@ public class KHLinkedList<T> {
         return data;
     }
 
-    // Keep old name remove() as alias to "remove from front"
     public T remove() {
         return removeFirst();
     }
@@ -159,7 +147,6 @@ public class KHLinkedList<T> {
         return data;
     }
 
-    // Remove by index (0 = first, size-1 = last, anything between = middle)
     public T remove(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
@@ -178,11 +165,7 @@ public class KHLinkedList<T> {
         size--;
         return removedData;
     }
-
-    /**
-     * Remove from the middle of the list.
-     * Uses index size/2 (same definition as addMiddle).
-     */
+    
     public T removeMiddle() {
         if (size == 0) {
             throw new IllegalStateException("List is empty");
@@ -243,8 +226,6 @@ public class KHLinkedList<T> {
     }
 }
 
-// You don't really need this class for the linked list to work,
-// but I'm leaving it here since you had it.
 class type<T> {
 
     private T type;
@@ -263,4 +244,5 @@ class type<T> {
         return type;
     }
 }
+
 
