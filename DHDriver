@@ -1,0 +1,568 @@
+import java.util.ArrayList;
+import java.util.Random;
+
+public class Driver {
+
+    private static final int SIZE = 500000;
+    private static final Random RAND = new Random();
+
+    public static void main(String[] args) {
+
+        System.out.println("===== Int Results (MyArrayList vs Java) =====");
+        testInt();
+
+        System.out.println();
+        System.out.println("===== String Results (MyArrayList vs Java) =====");
+        testString();
+
+        System.out.println();
+        System.out.println("===== Double Results (MyArrayList vs Java) =====");
+        testDouble();
+    }
+
+    private static void testInt() {
+        System.out.println("MyArrayList<int> addFirst:        " + myAddFirstInt() + " ns");
+        System.out.println("MyArrayList<int> addMiddle:       " + myAddMiddleInt() + " ns");
+        System.out.println("MyArrayList<int> addLast:         " + myAddLastInt() + " ns");
+        System.out.println("MyArrayList<int> seq access:      " + mySequentialInt() + " ns");
+        System.out.println("MyArrayList<int> random access:   " + myRandomInt() + " ns");
+        System.out.println("MyArrayList<int> removeFirst:     " + myRemoveFirstInt() + " ns");
+        System.out.println("MyArrayList<int> removeMiddle:    " + myRemoveMiddleInt() + " ns");
+        System.out.println("MyArrayList<int> removeLast:      " + myRemoveLastInt() + " ns");
+
+        System.out.println();
+
+        System.out.println("Java ArrayList<int> addFirst:     " + javaAddFirstInt() + " ns");
+        System.out.println("Java ArrayList<int> addMiddle:    " + javaAddMiddleInt() + " ns");
+        System.out.println("Java ArrayList<int> addLast:      " + javaAddLastInt() + " ns");
+        System.out.println("Java ArrayList<int> seq access:   " + javaSequentialInt() + " ns");
+        System.out.println("Java ArrayList<int> random access:" + javaRandomInt() + " ns");
+        System.out.println("Java ArrayList<int> removeFirst:  " + javaRemoveFirstInt() + " ns");
+        System.out.println("Java ArrayList<int> removeMiddle: " + javaRemoveMiddleInt() + " ns");
+        System.out.println("Java ArrayList<int> removeLast:   " + javaRemoveLastInt() + " ns");
+    }
+
+    private static long myAddFirstInt() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        long start = System.nanoTime();
+        list.addFirst(1);
+        return System.nanoTime() - start;
+    }
+
+    private static long myAddMiddleInt() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        list.addMiddle(9999);
+        return System.nanoTime() - start;
+    }
+
+    private static long myAddLastInt() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.addLast(i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long mySequentialInt() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long myRandomInt() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(RAND.nextInt(SIZE));
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long myRemoveFirstInt() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        list.removeFirst();
+        return System.nanoTime() - start;
+    }
+
+    private static long myRemoveMiddleInt() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        list.removeMiddle();
+        return System.nanoTime() - start;
+    }
+
+    private static long myRemoveLastInt() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        list.removeLast();
+        return System.nanoTime() - start;
+    }
+
+    private static long javaAddFirstInt() {
+        ArrayList<Integer> list = new ArrayList<>();
+        long start = System.nanoTime();
+        list.add(0, 1);
+        return System.nanoTime() - start;
+    }
+
+    private static long javaAddMiddleInt() {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        list.add(list.size() / 2, 9999);
+        return System.nanoTime() - start;
+    }
+
+    private static long javaAddLastInt() {
+        ArrayList<Integer> list = new ArrayList<>();
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long javaSequentialInt() {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRandomInt() {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(RAND.nextInt(SIZE));
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRemoveFirstInt() {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        list.remove(0);
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRemoveMiddleInt() {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        list.remove(list.size() / 2);
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRemoveLastInt() {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add(i);
+        }
+        long start = System.nanoTime();
+        list.remove(list.size() - 1);
+        return System.nanoTime() - start;
+    }
+
+    private static void testString() {
+        System.out.println("MyArrayList<String> addFirst:     " + myAddFirstString() + " ns");
+        System.out.println("MyArrayList<String> addMiddle:    " + myAddMiddleString() + " ns");
+        System.out.println("MyArrayList<String> addLast:      " + myAddLastString() + " ns");
+        System.out.println("MyArrayList<String> seq access:   " + mySequentialString() + " ns");
+        System.out.println("MyArrayList<String> random access:" + myRandomString() + " ns");
+        System.out.println("MyArrayList<String> removeFirst:  " + myRemoveFirstString() + " ns");
+        System.out.println("MyArrayList<String> removeMiddle: " + myRemoveMiddleString() + " ns");
+        System.out.println("MyArrayList<String> removeLast:   " + myRemoveLastString() + " ns");
+
+        System.out.println();
+
+        System.out.println("Java ArrayList<String> addFirst:  " + javaAddFirstString() + " ns");
+        System.out.println("Java ArrayList<String> addMiddle: " + javaAddMiddleString() + " ns");
+        System.out.println("Java ArrayList<String> addLast:   " + javaAddLastString() + " ns");
+        System.out.println("Java ArrayList<String> seq access:" + javaSequentialString() + " ns");
+        System.out.println("Java ArrayList<String> random:    " + javaRandomString() + " ns");
+        System.out.println("Java ArrayList<String> removeFirst: " + javaRemoveFirstString() + " ns");
+        System.out.println("Java ArrayList<String> removeMiddle:" + javaRemoveMiddleString() + " ns");
+        System.out.println("Java ArrayList<String> removeLast:  " + javaRemoveLastString() + " ns");
+    }
+
+    private static long myAddFirstString() {
+        MyArrayList<String> list = new MyArrayList<>();
+        long start = System.nanoTime();
+        list.addFirst("A");
+        return System.nanoTime() - start;
+    }
+
+    private static long myAddMiddleString() {
+        MyArrayList<String> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        list.addMiddle("MID");
+        return System.nanoTime() - start;
+    }
+
+    private static long myAddLastString() {
+        MyArrayList<String> list = new MyArrayList<>();
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.addLast("S" + i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long mySequentialString() {
+        MyArrayList<String> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long myRandomString() {
+        MyArrayList<String> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(RAND.nextInt(SIZE));
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long myRemoveFirstString() {
+        MyArrayList<String> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        list.removeFirst();
+        return System.nanoTime() - start;
+    }
+
+    private static long myRemoveMiddleString() {
+        MyArrayList<String> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        list.removeMiddle();
+        return System.nanoTime() - start;
+    }
+
+    private static long myRemoveLastString() {
+        MyArrayList<String> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        list.removeLast();
+        return System.nanoTime() - start;
+    }
+
+    private static long javaAddFirstString() {
+        ArrayList<String> list = new ArrayList<>();
+        long start = System.nanoTime();
+        list.add(0, "A");
+        return System.nanoTime() - start;
+    }
+
+    private static long javaAddMiddleString() {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        list.add(list.size() / 2, "MID");
+        return System.nanoTime() - start;
+    }
+
+    private static long javaAddLastString() {
+        ArrayList<String> list = new ArrayList<>();
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long javaSequentialString() {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRandomString() {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(RAND.nextInt(SIZE));
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRemoveFirstString() {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        list.remove(0);
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRemoveMiddleString() {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        list.remove(list.size() / 2);
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRemoveLastString() {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add("S" + i);
+        }
+        long start = System.nanoTime();
+        list.remove(list.size() - 1);
+        return System.nanoTime() - start;
+    }
+
+    private static void testDouble() {
+        System.out.println("MyArrayList<Double> addFirst:     " + myAddFirstDouble() + " ns");
+        System.out.println("MyArrayList<Double> addMiddle:    " + myAddMiddleDouble() + " ns");
+        System.out.println("MyArrayList<Double> addLast:      " + myAddLastDouble() + " ns");
+        System.out.println("MyArrayList<Double> seq access:   " + mySequentialDouble() + " ns");
+        System.out.println("MyArrayList<Double> random access:" + myRandomDouble() + " ns");
+        System.out.println("MyArrayList<Double> removeFirst:  " + myRemoveFirstDouble() + " ns");
+        System.out.println("MyArrayList<Double> removeMiddle: " + myRemoveMiddleDouble() + " ns");
+        System.out.println("MyArrayList<Double> removeLast:   " + myRemoveLastDouble() + " ns");
+
+        System.out.println();
+
+        System.out.println("Java ArrayList<Double> addFirst:  " + javaAddFirstDouble() + " ns");
+        System.out.println("Java ArrayList<Double> addMiddle: " + javaAddMiddleDouble() + " ns");
+        System.out.println("Java ArrayList<Double> addLast:   " + javaAddLastDouble() + " ns");
+        System.out.println("Java ArrayList<Double> seq access:" + javaSequentialDouble() + " ns");
+        System.out.println("Java ArrayList<Double> random:    " + javaRandomDouble() + " ns");
+        System.out.println("Java ArrayList<Double> removeFirst: " + javaRemoveFirstDouble() + " ns");
+        System.out.println("Java ArrayList<Double> removeMiddle:" + javaRemoveMiddleDouble() + " ns");
+        System.out.println("Java ArrayList<Double> removeLast:  " + javaRemoveLastDouble() + " ns");
+    }
+
+    private static long myAddFirstDouble() {
+        MyArrayList<Double> list = new MyArrayList<>();
+        long start = System.nanoTime();
+        list.addFirst(1.0);
+        return System.nanoTime() - start;
+    }
+
+    private static long myAddMiddleDouble() {
+        MyArrayList<Double> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        list.addMiddle(5000.0);
+        return System.nanoTime() - start;
+    }
+
+    private static long myAddLastDouble() {
+        MyArrayList<Double> list = new MyArrayList<>();
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.addLast((double) i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long mySequentialDouble() {
+        MyArrayList<Double> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long myRandomDouble() {
+        MyArrayList<Double> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(RAND.nextInt(SIZE));
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long myRemoveFirstDouble() {
+        MyArrayList<Double> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        list.removeFirst();
+        return System.nanoTime() - start;
+    }
+
+    private static long myRemoveMiddleDouble() {
+        MyArrayList<Double> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        list.removeMiddle();
+        return System.nanoTime() - start;
+    }
+
+    private static long myRemoveLastDouble() {
+        MyArrayList<Double> list = new MyArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        list.removeLast();
+        return System.nanoTime() - start;
+    }
+
+    private static long javaAddFirstDouble() {
+        ArrayList<Double> list = new ArrayList<>();
+        long start = System.nanoTime();
+        list.add(0, 1.0);
+        return System.nanoTime() - start;
+    }
+
+    private static long javaAddMiddleDouble() {
+        ArrayList<Double> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        list.add(list.size() / 2, 5000.0);
+        return System.nanoTime() - start;
+    }
+
+    private static long javaAddLastDouble() {
+        ArrayList<Double> list = new ArrayList<>();
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long javaSequentialDouble() {
+        ArrayList<Double> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(i);
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRandomDouble() {
+        ArrayList<Double> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        for (int i = 0; i < SIZE; i++) {
+            list.get(RAND.nextInt(SIZE));
+        }
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRemoveFirstDouble() {
+        ArrayList<Double> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        list.remove(0);
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRemoveMiddleDouble() {
+        ArrayList<Double> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        list.remove(list.size() / 2);
+        return System.nanoTime() - start;
+    }
+
+    private static long javaRemoveLastDouble() {
+        ArrayList<Double> list = new ArrayList<>();
+        for (int i = 0; i < SIZE; i++) {
+            list.add((double) i);
+        }
+        long start = System.nanoTime();
+        list.remove(list.size() - 1);
+        return System.nanoTime() - start;
+    }
+}
